@@ -1,4 +1,5 @@
 # project has example requests in Postman under /Section6
+import os
 
 from flask import Flask
 from flask_restful import Api
@@ -11,7 +12,13 @@ from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"  # this tells that our SQLAlchemy database will live in the root of our project (default is "in-memory" database)
+
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = uri or "sqlite:///data.db"
+                                      #"sqlite:///data.db"  # this tells that our SQLAlchemy database will live in the root of our project (default is "in-memory" database)
                                       # it works not only with sqlite, but SQLAlchemy, PostgreSQL, MySQL, SQLite,,,, just we have to change this line of code
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False   # this turns off the Flask-SQLAlchemy modification tracker,
                                                        # but the main SQLAlchemy mod. track. is still working (which is a bit better)
