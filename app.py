@@ -14,8 +14,9 @@ from resources.store import Store, StoreList
 app = Flask(__name__)
 
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+if uri:
+    if uri.startswith("postgres://"):
+        uri = uri.replace("postgres://", "postgresql://", 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = uri or "sqlite:///data.db"
                                       #"sqlite:///data.db"  # this tells that our SQLAlchemy database will live in the root of our project (default is "in-memory" database)
