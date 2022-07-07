@@ -23,6 +23,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = uri or "sqlite:///data.db"
                                       # it works not only with sqlite, but SQLAlchemy, PostgreSQL, MySQL, SQLite,,,, just we have to change this line of code
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False   # this turns off the Flask-SQLAlchemy modification tracker,
                                                        # but the main SQLAlchemy mod. track. is still working (which is a bit better)
+app.config["PROPAGATE_EXCEPTIONS"] = True  # workaround for Heroku
 app.secret_key = 'jose'  # this should be really a secret key!, you shouldn't publish this code
 api = Api(app)
 
